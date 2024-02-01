@@ -1,3 +1,4 @@
-rootProject.name = 'JHPay'
+rootProject.name = 'jh-pay'
 include 'membership-service'
+include 'common'
 

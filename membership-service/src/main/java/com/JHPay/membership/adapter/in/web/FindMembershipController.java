@@ -1,9 +1,9 @@
 package com.JHPay.membership.adapter.in.web;
 
+import com.JHPay.common.WebAdapter;
 import com.JHPay.membership.application.port.in.FindMembershipCommand;
 import com.JHPay.membership.application.port.in.FindMembershipUseCase;
 import com.JHPay.membership.domain.Membership;
-import common.WebAdapter;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

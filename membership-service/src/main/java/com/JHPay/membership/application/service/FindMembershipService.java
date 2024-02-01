@@ -1,12 +1,12 @@
 package com.JHPay.membership.application.service;
 
+import com.JHPay.common.UseCase;
 import com.JHPay.membership.adapter.out.persistence.MembershipJapEntity;
 import com.JHPay.membership.adapter.out.persistence.MembershipMapper;
 import com.JHPay.membership.application.port.in.FindMembershipCommand;
 import com.JHPay.membership.application.port.in.FindMembershipUseCase;
 import com.JHPay.membership.application.port.out.FindMembershipPort;
 import com.JHPay.membership.domain.Membership;
-import common.UseCase;
 import lombok.RequiredArgsConstructor;
 
 import javax.transaction.Transactional;

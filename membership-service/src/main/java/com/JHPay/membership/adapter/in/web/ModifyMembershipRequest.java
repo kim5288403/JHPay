@@ -7,7 +7,15 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FindMembershipRequest {
+public class ModifyMembershipRequest {
 
     private String membershipId;
+
+    private String name;
+
+    private String address;
+
+    private String email;
+
+    private boolean isCorp;
 }
