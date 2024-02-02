@@ -10,7 +10,7 @@ ext{
 }
 
 group = 'com.jh-pay.membership'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.3'
 
 java {
     sourceCompatibility = '11'
@@ -35,12 +35,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
     implementation project(path: ':common')
 
-    runtimeOnly 'com.h2database:h2'
+//    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.mysql:mysql-connector-j'
 }
 
 tasks.named('test') {
@@ -54,7 +56,7 @@ docker {
     name rootProject.name+'-'+project.name + ":" + version
 
     // 어떤 도커파일을 사용할지 지정
-    dockerfile file('./Dockerfile')
+    dockerfile file('../Dockerfile')
 
     // 어떤 파일들은 도커파일에 복사할 것인가
     files tasks.bootJar.outputs.files
