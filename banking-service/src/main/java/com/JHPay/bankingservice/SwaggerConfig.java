@@ -1,4 +1,4 @@
-package com.JHPay.membership;
+package com.JHPay.bankingservice;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +22,7 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .select()
                 // Controller가 들어있는 패키지. 이 경로의 하위에 있는 api만 표시됨.
-                .apis(RequestHandlerSelectors.basePackage("com.JHPay.membership"))
+                .apis(RequestHandlerSelectors.basePackage("com.JHPay.banking"))
                 // 위 패키지 안의 api 중 지정된 path만 보여줌. (any()로 설정 시 모든 api가 보여짐)
                 .paths(PathSelectors.any())
                 .build();
