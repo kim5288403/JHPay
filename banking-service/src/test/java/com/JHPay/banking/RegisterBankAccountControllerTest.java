@@ -1,7 +1,6 @@
 package com.JHPay.banking;
 
-import com.JHPay.bankingservice.BankingApplication;
-import com.JHPay.bankingservice.adapter.in.web.RegisterBankAccountRequest;
+import com.JHPay.banking.adapter.in.web.RegisterBankAccountRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
