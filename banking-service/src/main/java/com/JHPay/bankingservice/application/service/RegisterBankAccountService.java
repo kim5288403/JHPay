@@ -2,7 +2,7 @@ package com.JHPay.bankingservice.application.service;
 
 import com.JHPay.bankingservice.adapter.out.external.bank.BankAccount;
 import com.JHPay.bankingservice.adapter.out.external.bank.GetBankAccountRequest;
-import com.JHPay.bankingservice.adapter.out.persistence.RegisteredBankAccountJapEntity;
+import com.JHPay.bankingservice.adapter.out.persistence.RegisteredBankAccountJpaEntity;
 import com.JHPay.bankingservice.adapter.out.persistence.RegisteredBankAccountMapper;
 import com.JHPay.bankingservice.application.port.in.RegisterBankAccountCommand;
 import com.JHPay.bankingservice.application.port.in.RegisterBankAccountUseCase;
@@ -35,7 +35,7 @@ public class RegisterBankAccountService implements RegisterBankAccountUseCase {
         boolean accountIsValid = bankAccountInfo.isValid();
 
         if (accountIsValid) {
-            RegisteredBankAccountJapEntity entity = registerBankAccountPort.createRegisteredBankAccount(
+            RegisteredBankAccountJpaEntity entity = registerBankAccountPort.createRegisteredBankAccount(
                     new RegisteredBankAccount.MembershipId(command.getMembershipId()),
                     new RegisteredBankAccount.BankName(command.getBankName()),
                     new RegisteredBankAccount.BankAccountNumber(command.getBankAccountNumber()),

@@ -1,12 +1,13 @@
 package com.JHPay.bankingservice.adapter.out.external.bank;
 
 import com.JHPay.bankingservice.application.port.out.RequestBankAccountInfoPort;
+import com.JHPay.bankingservice.application.port.out.RequestExternalFirmBankingPort;
 import com.JHPay.common.ExternalSystemAdapter;
 import lombok.RequiredArgsConstructor;
 
 @ExternalSystemAdapter
 @RequiredArgsConstructor
-public class BankAccountAdapter implements RequestBankAccountInfoPort {
+public class BankAccountAdapter implements RequestBankAccountInfoPort, RequestExternalFirmBankingPort {
 
 
     @Override
@@ -17,5 +18,14 @@ public class BankAccountAdapter implements RequestBankAccountInfoPort {
         // 실제 은행 계좌를 -> bankAccout로 파싱
 
         return new BankAccount(request.getBankAccountNumber(), request.getBankName(), true);
+    }
+
+    @Override
+    public FirmBankingResult requestExternalFirmBanking(ExternalFirmBankingRequest externalFirmBankingRequest) {
+        // 실제로 외부 은행에 http call 을 통해서
+        // 펌뱅킹 요청을 하고
+        // 외부은행 결과를 -> FirmBankingResult 파싱
+
+        return new FirmBankingResult(0);
     }
 }

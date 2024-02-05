@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisteredBankAccountJapEntity {
+public class RegisteredBankAccountJpaEntity {
 
     @Id
     @GeneratedValue
@@ -39,7 +39,7 @@ public class RegisteredBankAccountJapEntity {
                 '}';
     }
 
-    public RegisteredBankAccountJapEntity(
+    public RegisteredBankAccountJpaEntity(
             String membershipId,
             String bankName,
             String bankAccountNumber,

@@ -33,7 +33,7 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 
   banking-service:
-    image: jh-pay-banking-service:1.0.1
+    image: jh-pay-banking-service:1.0.2
     networks:
       - jh_network
     ports:
