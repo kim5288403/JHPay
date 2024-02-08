@@ -6,6 +6,8 @@ import com.JHPay.banking.adapter.out.persistence.RegisteredBankAccountJpaEntity;
 import com.JHPay.banking.adapter.out.persistence.RegisteredBankAccountMapper;
 import com.JHPay.banking.application.port.in.RegisterBankAccountCommand;
 import com.JHPay.banking.application.port.in.RegisterBankAccountUseCase;
+import com.JHPay.banking.application.port.out.GetMembershipPort;
+import com.JHPay.banking.application.port.out.MembershipStatus;
 import com.JHPay.banking.application.port.out.RegisterBankAccountPort;
 import com.JHPay.banking.application.port.out.RequestBankAccountInfoPort;
 import com.JHPay.banking.domain.RegisteredBankAccount;
@@ -23,11 +25,17 @@ public class RegisterBankAccountService implements RegisterBankAccountUseCase {
     private final RegisterBankAccountPort registerBankAccountPort;
     private final RegisteredBankAccountMapper mapper;
     private final RequestBankAccountInfoPort requestBankAccountInfoPort;
+    private final GetMembershipPort getMembershipPort;
 
 
     @Override
     public RegisteredBankAccount registerBankAccount(RegisterBankAccountCommand command) {
 
+        // http call membership 정상 확인
+        MembershipStatus membershipStatus = getMembershipPort.getMembership(command.getMembershipId());
+        if (!membershipStatus.isValid()) {
+            return null;
+        }
 
 
         // 실제 외부의 은행계좌 정보를 가져오기

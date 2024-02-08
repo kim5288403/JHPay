@@ -30,14 +30,31 @@ public class RequestMoneyChangingController {
 
         MoneyChangingRequest moneyChangingRequest = increaseMoneyRequestUseCase.increaseMoneyRequest(command);
 
-        MoneyChangingResultDetail moneyChangingResultDetail = new MoneyChangingResultDetail(
+        return new MoneyChangingResultDetail(
                 moneyChangingRequest.getMoneyChangingRequestId(),
                 0,
                 moneyChangingRequest.getChangingMoneyAmount(),
                 0
         );
+    }
 
-        return moneyChangingResultDetail;
+    @PostMapping(path = "/money/increase-async")
+    @Operation(summary = "증액 요청", description = "증액 요청")
+    MoneyChangingResultDetail increaseMoneyChangingRequestAsync(@RequestBody IncreaseMoneyChangingRequest request) {
+        IncreaseMoneyRequestCommand command = IncreaseMoneyRequestCommand
+                .builder()
+                .targetMembershipId(request.getTargetMembershipId())
+                .amount(request.getAmount())
+                .build();
+
+        MoneyChangingRequest moneyChangingRequest = increaseMoneyRequestUseCase.increaseMoneyRequestAsync(command);
+
+        return new MoneyChangingResultDetail(
+                moneyChangingRequest.getMoneyChangingRequestId(),
+                0,
+                moneyChangingRequest.getChangingMoneyAmount(),
+                0
+        );
     }
 
     @PostMapping(path = "/money/decrease")
