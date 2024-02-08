@@ -22,7 +22,7 @@ public class RegisterBankAccountController {
     // 동일 계좌 등록 처리
     @PostMapping(path = "/banking/account/register")
     @Operation(summary = "계좌 등록", description = "계좌 등록")
-    RegisteredBankAccount registerMembership(@RequestBody RegisterBankAccountRequest request) {
+    RegisteredBankAccount registerBankAccount(@RequestBody RegisterBankAccountRequest request) {
         RegisterBankAccountCommand command = RegisterBankAccountCommand.builder()
                 .membershipId(request.getMembershipId())
                 .bankName(request.getBankName())
