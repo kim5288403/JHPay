@@ -1,5 +1,43 @@
 version: '3'
+
+volumes:
+  axonserver-data:
+    driver: local
+    driver_opts:
+      device: ./axon-server-se/data
+      o: bind
+      type: none
+#      device: ${PWD}/axon-server-se/data
+  axonserver-events:
+    driver: local
+    driver_opts:
+      device: ./axon-server-se/events
+      o: bind
+      type: none
+#      device: ${PWD}/axon-server-se/events
+  axonserver-config:
+    driver: local
+    driver_opts:
+      device: ./axon-server-se/config
+      o: bind
+      type: none
+#      device: ${PWD}/axon-server-se/config
+
 services:
+  axon-server:
+    container_name: axon-server
+    image: axoniq/axonserver:4.6.3-jdk-11-dev
+    networks:
+      - jh_network
+    ports:
+      - "8024:8024"
+      - "8124:8124"
+      - '8224:8224'
+    volumes:
+      - axonserver-data:/axonserver/data
+      - axonserver-events:/axonserver/events
+      - axonserver-config:/axonserver/config:ro
+
   zookeeper:
     image: bitnami/zookeeper:latest
     container_name: zookeeper
@@ -107,6 +145,10 @@ services:
     depends_on:
       - mysql
     environment:
+      - AXON_AXONSERVER_SERVERS=axon-server:8124
+      - AXON_SERIALIZER_EVENTS=jackson
+      - AXON_SERIALIZER_MESSAGES=jackson
+      - AXON_SERIALIZER_GENERAL=xstream
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/jh_pay?useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=ci_test
       - SPRING_DATASOURCE_PASSWORD=Abcd123@
@@ -143,6 +185,7 @@ services:
       - LOGGING_TOPIC=jhpay.logging.out.stdout
       - TASK_TOPIC=jhpay.task.topic
       - TASK_RESULT_TOPIC=jhpay.task.result.topic
+
 
 networks:
   jh_network:

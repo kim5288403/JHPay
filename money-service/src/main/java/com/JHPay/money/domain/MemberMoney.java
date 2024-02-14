@@ -58,6 +58,15 @@ public class MemberMoney {
         int balance;
     }
 
+    @Value
+    public static class MoneyAggregateIdentifier {
+        public MoneyAggregateIdentifier(String value) {
+            this.moneyAggregateIdentifier = value;
+        }
+
+        String moneyAggregateIdentifier;
+    }
+
 
 //    @Value
 //    public static class LinkedBankAccount {

@@ -4,8 +4,10 @@ import com.JHPay.common.CountDownLatchManager;
 import com.JHPay.common.RechargingMoneyTask;
 import com.JHPay.common.SubTask;
 import com.JHPay.common.UseCase;
+import com.JHPay.money.adapter.axon.command.AxonIncreaseMemberMoneyCommand;
 import com.JHPay.money.adapter.out.persistence.MemberMoneyJpaEntity;
 import com.JHPay.money.adapter.out.persistence.MoneyChangingRequestMapper;
+import com.JHPay.money.application.port.in.GetMemberMoneyPort;
 import com.JHPay.money.application.port.in.IncreaseMoneyRequestCommand;
 import com.JHPay.money.application.port.in.IncreaseMoneyRequestUseCase;
 import com.JHPay.money.application.port.out.GetMembershipPort;
@@ -14,6 +16,7 @@ import com.JHPay.money.application.port.out.SendRechargingMoneyTaskPort;
 import com.JHPay.money.domain.MemberMoney;
 import com.JHPay.money.domain.MoneyChangingRequest;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -35,6 +38,10 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase 
     private final SendRechargingMoneyTaskPort sendRechargingMoneyTaskPort;
 
     private final CountDownLatchManager countDownLatchManager;
+
+    private final CommandGateway commandGateway;
+
+    private final GetMemberMoneyPort getMemberMoneyPort;
 
     @Override
     public MoneyChangingRequest increaseMoneyRequest(IncreaseMoneyRequestCommand command) {
@@ -149,5 +156,35 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase 
 
         // 5. consume ok, logic
         return null;
+    }
+
+    @Override
+    public void increaseMoneyRequestByEvent(IncreaseMoneyRequestCommand command) {
+        MemberMoneyJpaEntity memberMoneyJpaEntity = getMemberMoneyPort.getMemberMoney(
+                new MemberMoney.MembershipId(command.getTargetMembershipId())
+        );
+
+        String aggregateIdentifier = memberMoneyJpaEntity.getAggregateIdentifier();
+
+        AxonIncreaseMemberMoneyCommand axonCommand = AxonIncreaseMemberMoneyCommand
+                .builder()
+                .membershipId(command.getTargetMembershipId())
+                .amount(command.getAmount())
+                .aggregateIdentifier(aggregateIdentifier)
+                .build();
+
+        commandGateway.send(axonCommand).whenComplete((result, throwable) -> {
+            if (throwable != null) {
+                System.out.println("increaseMoney throwable : " + throwable);
+                throw new RuntimeException(throwable);
+            } else {
+                // Increase money
+                increaseMoneyPort.increaseMoney(
+                        new MemberMoney.MembershipId(command.getTargetMembershipId())
+                        , command.getAmount());
+
+                System.out.println("increaseMoney result : " + result);
+            }
+        });
     }
 }

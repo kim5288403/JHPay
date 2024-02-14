@@ -5,10 +5,6 @@ plugins {
     id 'com.palantir.docker' version '0.35.0'
 }
 
-ext{
-    axonVersion = "4.6.0"
-}
-
 group = 'com.jh-pay.membership'
 version = '1.0.3'
 
