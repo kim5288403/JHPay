@@ -1,6 +1,7 @@
 package com.JHPay.banking.adapter.out.persistence;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@Builder
 @Entity
 @Table(name = "registered_bank_account")
 @Data
@@ -28,6 +30,7 @@ public class RegisteredBankAccountJpaEntity {
 
     private boolean linkedStatusIsValid;
 
+    private String aggregateIdentifier;
     @Override
     public String toString() {
         return "RegisteredBankAccountJapEntity{" +
@@ -36,6 +39,7 @@ public class RegisteredBankAccountJpaEntity {
                 ", bankName='" + bankName + '\'' +
                 ", bankAccountNumber='" + bankAccountNumber + '\'' +
                 ", linkedStatusIsValid=" + linkedStatusIsValid +
+                ", aggregateIdentifier=" + aggregateIdentifier +
                 '}';
     }
 
@@ -43,11 +47,13 @@ public class RegisteredBankAccountJpaEntity {
             String membershipId,
             String bankName,
             String bankAccountNumber,
-            boolean linkedStatusIsValid
+            boolean linkedStatusIsValid,
+            String aggregateIdentifier
     ) {
         this.membershipId = membershipId;
         this.bankName = bankName;
         this.bankAccountNumber = bankAccountNumber;
         this.linkedStatusIsValid = linkedStatusIsValid;
+        this.aggregateIdentifier = aggregateIdentifier;
     }
 }

@@ -32,4 +32,17 @@ public class RegisterBankAccountController {
 
         return registerBankAccountUseCase.registerBankAccount(command);
     }
+
+    @PostMapping(path = "/banking/account/register-eda")
+    @Operation(summary = "Event 계좌 등록", description = "Event 계좌 등록")
+    void registerBankAccountByEvent(@RequestBody RegisterBankAccountRequest request) {
+        RegisterBankAccountCommand command = RegisterBankAccountCommand.builder()
+                .membershipId(request.getMembershipId())
+                .bankName(request.getBankName())
+                .bankAccountNumber(request.getBankAccountNumber())
+                .isValid(request.isValid())
+                .build();
+
+        registerBankAccountUseCase.registerBankAccountByEvent(command);
+    }
 }

@@ -44,7 +44,8 @@ public class MoneyChangingRequestPersistenceAdapter implements IncreaseMoneyPort
         if (entity == null) {
             entity = new MemberMoneyJpaEntity(
                     membershipId.getMembershipId(),
-                    increaseMoneyAmount
+                    increaseMoneyAmount,
+                    ""
             );
 
         } else {

@@ -1,5 +1,40 @@
 version: '3'
+
+volumes:
+  axonserver-data:
+    driver: local
+    driver_opts:
+      device: ./axon-server-se/data
+      o: bind
+      type: none
+  axonserver-events:
+    driver: local
+    driver_opts:
+      device: ./axon-server-se/events
+      o: bind
+      type: none
+  axonserver-config:
+    driver: local
+    driver_opts:
+      device: ./axon-server-se/config
+      o: bind
+      type: none
+
 services:
+  axon-server:
+    container_name: axon-server
+    image: axoniq/axonserver:4.6.3-jdk-11-dev
+    networks:
+      - jh_network
+    ports:
+      - "8024:8024"
+      - "8124:8124"
+      - "8224:8224"
+    volumes:
+      - axonserver-data:/axonserver/data
+      - axonserver-events:/axonserver/events
+      - axonserver-config:/axonserver/config:ro
+
   zookeeper:
     image: bitnami/zookeeper:latest
     container_name: zookeeper
@@ -72,6 +107,10 @@ services:
     depends_on:
       - mysql
     environment:
+      - AXON_AXONSERVER_SERVERS=axon-server:8124
+      - AXON_SERIALIZER_EVENTS=jackson
+      - AXON_SERIALIZER_MESSAGES=jackson
+      - AXON_SERIALIZER_GENERAL=xstream
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/jh_pay?useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=ci_test
       - SPRING_DATASOURCE_PASSWORD=Abcd123@
@@ -89,6 +128,10 @@ services:
     depends_on:
       - mysql
     environment:
+      - AXON_AXONSERVER_SERVERS=axon-server:8124
+      - AXON_SERIALIZER_EVENTS=jackson
+      - AXON_SERIALIZER_MESSAGES=jackson
+      - AXON_SERIALIZER_GENERAL=xstream
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/jh_pay?useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=ci_test
       - SPRING_DATASOURCE_PASSWORD=Abcd123@
@@ -107,6 +150,10 @@ services:
     depends_on:
       - mysql
     environment:
+      - AXON_AXONSERVER_SERVERS=axon-server:8124
+      - AXON_SERIALIZER_EVENTS=jackson
+      - AXON_SERIALIZER_MESSAGES=jackson
+      - AXON_SERIALIZER_GENERAL=xstream
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/jh_pay?useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=ci_test
       - SPRING_DATASOURCE_PASSWORD=Abcd123@
@@ -117,6 +164,33 @@ services:
       - TASK_TOPIC=jhpay.task.topic
       - TASK_RESULT_TOPIC=jhpay.task.result.topic
       - SERVICE_MEMBERSHIP_URL=http://membership-service:8080
+      - SERVICE_BANKING_URL=http://banking-service:8080
+
+  payment-service:
+    image: jh-pay-payment-service:1.0.0
+    networks:
+      - jh_network
+    ports:
+      - "8085:8080"
+    depends_on:
+      - mysql
+    environment:
+      - AXON_AXONSERVER_SERVERS=axon-server:8124
+      - AXON_SERIALIZER_EVENTS=jackson
+      - AXON_SERIALIZER_MESSAGES=jackson
+      - AXON_SERIALIZER_GENERAL=xstream
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/jh_pay?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=ci_test
+      - SPRING_DATASOURCE_PASSWORD=Abcd123@
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQL5InnoDBDialect
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
+      - LOGGING_TOPIC=jhpay.logging.out.stdout
+      - TASK_TOPIC=jhpay.task.topic
+      - TASK_RESULT_TOPIC=jhpay.task.result.topic
+      - SERVICE_MEMBERSHIP_URL=http://membership-service:8080
+      - SERVICE_BANKING_URL=http://banking-service:8080
+      - SERVICE_MONEY_URL=http://money-service:8080
 
   remittance-service:
     image: jh-pay-remittance-service:1.0.0
@@ -165,6 +239,7 @@ services:
       - LOGGING_TOPIC=jhpay.logging.out.stdout
       - TASK_TOPIC=jhpay.task.topic
       - TASK_RESULT_TOPIC=jhpay.task.result.topic
+
 
 networks:
   jh_network:

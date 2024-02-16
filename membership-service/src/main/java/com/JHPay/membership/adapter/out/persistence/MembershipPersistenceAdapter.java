@@ -17,8 +17,8 @@ public class MembershipPersistenceAdapter implements RegisterMembershipPort, Fin
         return membershipRepository.save(
                 new MembershipJapEntity(
                         membershipName.getMembershipName(),
-                        membershipEmail.getMembershipEmail(),
                         membershipAddress.getMembershipAddress(),
+                        membershipEmail.getMembershipEmail(),
                         membershipIsValid.isMembershipIsValid(),
                         membershipIsCorp.isMembershipIsCorp()
                 )

@@ -1,6 +1,8 @@
 package com.JHPay.money.adapter.in.web;
 
 import com.JHPay.common.WebAdapter;
+import com.JHPay.money.application.port.in.CreateMemberMoneyCommand;
+import com.JHPay.money.application.port.in.CreateMemberMoneyUseCase;
 import com.JHPay.money.application.port.in.IncreaseMoneyRequestCommand;
 import com.JHPay.money.application.port.in.IncreaseMoneyRequestUseCase;
 import com.JHPay.money.domain.MoneyChangingRequest;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RequestMoneyChangingController {
 
     private final IncreaseMoneyRequestUseCase increaseMoneyRequestUseCase;
+    private final CreateMemberMoneyUseCase createMemberMoneyUseCase;
 //    private final DecreaseMoneyRequestUseCase decreaseMoneyRequestUseCase;
 
 
@@ -39,7 +42,7 @@ public class RequestMoneyChangingController {
     }
 
     @PostMapping(path = "/money/increase-async")
-    @Operation(summary = "증액 요청", description = "증액 요청")
+    @Operation(summary = "비동기 증액 요청", description = "비동기 증액 요청")
     MoneyChangingResultDetail increaseMoneyChangingRequestAsync(@RequestBody IncreaseMoneyChangingRequest request) {
         IncreaseMoneyRequestCommand command = IncreaseMoneyRequestCommand
                 .builder()
@@ -57,9 +60,33 @@ public class RequestMoneyChangingController {
         );
     }
 
-    @PostMapping(path = "/money/decrease")
-    @Operation(summary = "감액 요청", description = "감액 요청")
-    MoneyChangingResultDetail decreaseMoneyChangingRequest(@RequestBody  DecreaseMoneyChangingRequest request) {
+    @PostMapping(path = "/money/increase-eda")
+    @Operation(summary = "Event 증액 요청", description = "Event 증액 요청")
+    void increaseMoneyChangingRequestByEvent(@RequestBody IncreaseMoneyChangingRequest request) {
+        IncreaseMoneyRequestCommand command = IncreaseMoneyRequestCommand
+                .builder()
+                .targetMembershipId(request.getTargetMembershipId())
+                .amount(request.getAmount())
+                .build();
+
+        increaseMoneyRequestUseCase.increaseMoneyRequestByEvent(command);
+
+    }
+
+    @PostMapping(path = "/money/create-member-money")
+    @Operation(summary = "EDA 맴버 머니 생성", description = "EDA 맴버 머니 생성")
+    void createMemberMoney (@RequestBody CreateMemberMoneyRequest request) {
+        createMemberMoneyUseCase
+                .createMemberMoney(
+                        CreateMemberMoneyCommand.builder()
+                                .membershipId(request.getMembershipId())
+                                .build()
+                );
+    }
+
+//    @PostMapping(path = "/money/decrease")
+//    @Operation(summary = "감액 요청", description = "감액 요청")
+//    MoneyChangingResultDetail decreaseMoneyChangingRequest(@RequestBody  DecreaseMoneyChangingRequest request) {
 //        RegisterBankAccountCommand command = RegisterBankAccountCommand.builder()
 //                .membershipId(request.getMembershipId())
 //                .bankName(request.getBankName())
@@ -67,6 +94,6 @@ public class RequestMoneyChangingController {
 //                .isValid(request.isValid())
 //                .build();
 
-        return null;
-    }
+//        return null;
+//    }
 }
