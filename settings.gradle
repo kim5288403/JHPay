@@ -3,6 +3,10 @@ include 'membership-service'
 include 'common'
 include 'banking-service'
 include 'money-service'
+include 'payment-service'
+include 'remittance-service'
 include 'logging-consumer'
 include 'task-consumer'
+
+
 
