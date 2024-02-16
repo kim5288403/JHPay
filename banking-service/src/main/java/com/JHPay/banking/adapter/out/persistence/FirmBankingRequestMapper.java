@@ -14,10 +14,10 @@ public class FirmBankingRequestMapper {
                 new FirmBankingRequest.FromBankAccountNumber(firmBankingRequestJpaEntity.getFromBankAccountNumber()),
                 new FirmBankingRequest.ToBankName(firmBankingRequestJpaEntity.getToBankName()),
                 new FirmBankingRequest.ToBankAccountNumber(firmBankingRequestJpaEntity.getToBankAccountNumber()),
-                new FirmBankingRequest.MoneyAccount(firmBankingRequestJpaEntity.getMoneyAmount()),
+                new FirmBankingRequest.MoneyAmount(firmBankingRequestJpaEntity.getMoneyAmount()),
                 new FirmBankingRequest.FirmBankingStatus(firmBankingRequestJpaEntity.getFirmBankingStatus()),
-                uuid,
-                new FirmBankingRequest.AggregateIdentifier(firmBankingRequestJpaEntity.getAggregateIdentifier())
+                uuid
+//                new FirmBankingRequest.AggregateIdentifier(firmBankingRequestJpaEntity.getAggregateIdentifier())
 
         );
     }

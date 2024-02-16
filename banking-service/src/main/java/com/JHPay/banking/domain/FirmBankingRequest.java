@@ -21,13 +21,11 @@ public class FirmBankingRequest {
 
     private final String toBankAccountNumber;
 
-    private final int moneyAccount; // only won
+    private final int moneyAmount; // only won
 
     private final int firmBankingStatus; // 0: 요청, 1: 완료, 2: 실패
 
     private final UUID uuid;
-
-    private final String aggregateIdentifier;
 
     public static FirmBankingRequest generateFirmBankingRequest(
             FirmBankingRequestId firmBankingRequestId,
@@ -35,10 +33,9 @@ public class FirmBankingRequest {
             FromBankAccountNumber fromBankAccountNumber,
             ToBankName toBankName,
             ToBankAccountNumber toBankAccountNumber,
-            MoneyAccount moneyAccount,
+            MoneyAmount moneyAmount,
             FirmBankingStatus firmBankingStatus,
-            UUID uuid,
-            AggregateIdentifier aggregateIdentifier
+            UUID uuid
             ) {
         return new FirmBankingRequest(
                 firmBankingRequestId.firmBankingRequestId,
@@ -46,10 +43,9 @@ public class FirmBankingRequest {
                 fromBankAccountNumber.fromBankAccountNumber,
                 toBankName.toBankName,
                 toBankAccountNumber.toBankAccountNumber,
-                moneyAccount.moneyAccount,
+                moneyAmount.moneyAmount,
                 firmBankingStatus.firmBankingStatus,
-                uuid,
-                aggregateIdentifier.getAggregateIdentifier()
+                uuid
         );
     }
 
@@ -99,12 +95,12 @@ public class FirmBankingRequest {
     }
 
     @Value
-    public static class MoneyAccount {
-        public MoneyAccount(int value) {
-            this.moneyAccount = value;
+    public static class MoneyAmount {
+        public MoneyAmount(int value) {
+            this.moneyAmount = value;
         }
 
-        int moneyAccount;
+        int moneyAmount;
     }
 
     @Value

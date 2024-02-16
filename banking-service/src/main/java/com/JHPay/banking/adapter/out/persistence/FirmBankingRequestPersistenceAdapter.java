@@ -19,7 +19,7 @@ public class FirmBankingRequestPersistenceAdapter implements RequestFirmBankingP
             FirmBankingRequest.FromBankAccountNumber fromBankAccountNumber,
             FirmBankingRequest.ToBankName toBankName,
             FirmBankingRequest.ToBankAccountNumber toBankAccountNumber,
-            FirmBankingRequest.MoneyAccount moneyAccount,
+            FirmBankingRequest.MoneyAmount moneyAmount,
             FirmBankingRequest.FirmBankingStatus firmBankingStatus,
             FirmBankingRequest.AggregateIdentifier aggregateIdentifier) {
 
@@ -29,7 +29,7 @@ public class FirmBankingRequestPersistenceAdapter implements RequestFirmBankingP
                         fromBankAccountNumber.getFromBankAccountNumber(),
                         toBankName.getToBankName(),
                         toBankAccountNumber.getToBankAccountNumber(),
-                        moneyAccount.getMoneyAccount(),
+                        moneyAmount.getMoneyAmount(),
                         firmBankingStatus.getFirmBankingStatus(),
                         UUID.randomUUID(),
                         aggregateIdentifier.getAggregateIdentifier()

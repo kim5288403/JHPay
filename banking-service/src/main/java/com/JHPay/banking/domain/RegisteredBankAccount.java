@@ -1,9 +1,6 @@
 package com.JHPay.banking.domain;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Value;
+import lombok.*;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -19,13 +16,15 @@ public class RegisteredBankAccount {
 
     private final boolean linkedStatusIsValid; // enum
 
+    private final String aggregateIdentifier;
 
     public static RegisteredBankAccount generateRegisteredBankAccount(
             RegisteredBankAccountId registeredBankAccountId,
             MembershipId membershipId,
             BankName bankName,
             BankAccountNumber bankAccountNumber,
-            LinkedStatusIsValid linkedStatusIsValid
+            LinkedStatusIsValid linkedStatusIsValid,
+            AggregateIdentifier aggregateIdentifier
 
     ) {
         return new RegisteredBankAccount(
@@ -33,7 +32,8 @@ public class RegisteredBankAccount {
                 membershipId.membershipId,
                 bankName.bankName,
                 bankAccountNumber.bankAccountNumber,
-                linkedStatusIsValid.linkedStatusIsValid
+                linkedStatusIsValid.linkedStatusIsValid,
+                aggregateIdentifier.aggregateIdentifier
         );
     }
 
@@ -80,6 +80,14 @@ public class RegisteredBankAccount {
         }
 
         boolean linkedStatusIsValid;
+    }
+
+    @Value
+    public static class AggregateIdentifier {
+        public AggregateIdentifier(String value) {
+            this.aggregateIdentifier = value;
+        }
+        String aggregateIdentifier;
     }
 
 }

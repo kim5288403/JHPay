@@ -38,7 +38,7 @@ public class RequestFirmBankingService implements RequestFirmBankingUseCase {
                 new FirmBankingRequest.FromBankAccountNumber(command.getFromBankAccountNumber()),
                 new FirmBankingRequest.ToBankName(command.getToBankName()),
                 new FirmBankingRequest.ToBankAccountNumber(command.getToBankAccountNumber()),
-                new FirmBankingRequest.MoneyAccount(command.getMoneyAmount()),
+                new FirmBankingRequest.MoneyAmount(command.getMoneyAmount()),
                 new FirmBankingRequest.FirmBankingStatus(0),
                 new FirmBankingRequest.AggregateIdentifier("")
         );
@@ -49,7 +49,8 @@ public class RequestFirmBankingService implements RequestFirmBankingUseCase {
                         command.getFromBankName(),
                         command.getFromBankAccountNumber(),
                         command.getToBankName(),
-                        command.getToBankAccountNumber()
+                        command.getToBankAccountNumber(),
+                        0
                 )
         );
 
@@ -91,7 +92,7 @@ public class RequestFirmBankingService implements RequestFirmBankingUseCase {
                         new FirmBankingRequest.FromBankAccountNumber(command.getFromBankAccountNumber()),
                         new FirmBankingRequest.ToBankName(command.getToBankName()),
                         new FirmBankingRequest.ToBankAccountNumber(command.getToBankAccountNumber()),
-                        new FirmBankingRequest.MoneyAccount(command.getMoneyAmount()),
+                        new FirmBankingRequest.MoneyAmount(command.getMoneyAmount()),
                         new FirmBankingRequest.FirmBankingStatus(0),
                         new FirmBankingRequest.AggregateIdentifier(result.toString())
                 );
@@ -102,7 +103,8 @@ public class RequestFirmBankingService implements RequestFirmBankingUseCase {
                                 command.getFromBankName(),
                                 command.getFromBankAccountNumber(),
                                 command.getToBankName(),
-                                command.getToBankAccountNumber()
+                                command.getToBankAccountNumber(),
+                                0
                         )
                 );
 

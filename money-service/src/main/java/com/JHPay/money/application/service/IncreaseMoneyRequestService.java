@@ -4,7 +4,7 @@ import com.JHPay.common.CountDownLatchManager;
 import com.JHPay.common.RechargingMoneyTask;
 import com.JHPay.common.SubTask;
 import com.JHPay.common.UseCase;
-import com.JHPay.money.adapter.axon.command.AxonIncreaseMemberMoneyCommand;
+import com.JHPay.money.adapter.axon.command.RechargingMoneyRequestCreateCommand;
 import com.JHPay.money.adapter.out.persistence.MemberMoneyJpaEntity;
 import com.JHPay.money.adapter.out.persistence.MoneyChangingRequestMapper;
 import com.JHPay.money.application.port.in.GetMemberMoneyPort;
@@ -158,33 +158,59 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase 
         return null;
     }
 
+//    @Override
+//    public void increaseMoneyRequestByEvent(IncreaseMoneyRequestCommand command) {
+//        MemberMoneyJpaEntity memberMoneyJpaEntity = getMemberMoneyPort.getMemberMoney(
+//                new MemberMoney.MembershipId(command.getTargetMembershipId())
+//        );
+//
+//        String aggregateIdentifier = memberMoneyJpaEntity.getAggregateIdentifier();
+//
+//        AxonIncreaseMemberMoneyCommand axonCommand = AxonIncreaseMemberMoneyCommand
+//                .builder()
+//                .membershipId(command.getTargetMembershipId())
+//                .amount(command.getAmount())
+//                .aggregateIdentifier(aggregateIdentifier)
+//                .build();
+//
+//        commandGateway.send(axonCommand).whenComplete((result, throwable) -> {
+//            if (throwable != null) {
+//                System.out.println("increaseMoney throwable : " + throwable);
+//                throw new RuntimeException(throwable);
+//            } else {
+//                // Increase money
+//                increaseMoneyPort.increaseMoney(
+//                        new MemberMoney.MembershipId(command.getTargetMembershipId())
+//                        , command.getAmount());
+//
+//                System.out.println("increaseMoney result : " + result);
+//            }
+//        });
+//    }
+
     @Override
     public void increaseMoneyRequestByEvent(IncreaseMoneyRequestCommand command) {
-        MemberMoneyJpaEntity memberMoneyJpaEntity = getMemberMoneyPort.getMemberMoney(
+        MemberMoneyJpaEntity memberMoneyEntity = getMemberMoneyPort.getMemberMoney(
                 new MemberMoney.MembershipId(command.getTargetMembershipId())
         );
 
-        String aggregateIdentifier = memberMoneyJpaEntity.getAggregateIdentifier();
+        String moneyIdentifier = memberMoneyEntity.getAggregateIdentifier();
 
-        AxonIncreaseMemberMoneyCommand axonCommand = AxonIncreaseMemberMoneyCommand
-                .builder()
-                .membershipId(command.getTargetMembershipId())
-                .amount(command.getAmount())
-                .aggregateIdentifier(aggregateIdentifier)
-                .build();
-
-        commandGateway.send(axonCommand).whenComplete((result, throwable) -> {
-            if (throwable != null) {
-                System.out.println("increaseMoney throwable : " + throwable);
-                throw new RuntimeException(throwable);
-            } else {
-                // Increase money
-                increaseMoneyPort.increaseMoney(
-                        new MemberMoney.MembershipId(command.getTargetMembershipId())
-                        , command.getAmount());
-
-                System.out.println("increaseMoney result : " + result);
-            }
-        });
+        // 외부 펌뱅킹 요청. (펌뱅킹 서비스)
+        // Todo..
+        commandGateway.send(new RechargingMoneyRequestCreateCommand(
+                moneyIdentifier,
+                UUID.randomUUID().toString(),
+                command.getTargetMembershipId(),
+                command.getAmount())
+        ).whenComplete(
+                (Object result, Throwable throwable) -> {
+                    if (throwable == null) {
+                        System.out.println("Aggregate ID:" + result.toString());
+                    } else {
+                        System.out.println("Error occurred.");
+                    }
+                }
+        );
     }
 }
