@@ -1,7 +1,7 @@
 package com.JHPay.membership.application.service;
 
 import com.JHPay.common.UseCase;
-import com.JHPay.membership.adapter.out.persistence.MembershipJapEntity;
+import com.JHPay.membership.adapter.out.persistence.MembershipJpaEntity;
 import com.JHPay.membership.adapter.out.persistence.MembershipMapper;
 import com.JHPay.membership.application.port.in.ModifyMembershipCommand;
 import com.JHPay.membership.application.port.in.ModifyMembershipUseCase;
@@ -23,7 +23,7 @@ public class ModifyMembershipService implements ModifyMembershipUseCase
 
     @Override
     public Membership modifyMembership(ModifyMembershipCommand command) {
-        MembershipJapEntity jpaEntity = modifyMembershipPort.modifyMembership(
+        MembershipJpaEntity jpaEntity = modifyMembershipPort.modifyMembership(
                 new Membership.MembershipId(command.getMembershipId()),
                 new Membership.MembershipName(command.getName()),
                 new Membership.MembershipEmail(command.getEmail()),

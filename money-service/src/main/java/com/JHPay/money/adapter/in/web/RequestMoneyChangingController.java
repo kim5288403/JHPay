@@ -84,16 +84,19 @@ public class RequestMoneyChangingController {
                 );
     }
 
-//    @PostMapping(path = "/money/decrease")
-//    @Operation(summary = "감액 요청", description = "감액 요청")
-//    MoneyChangingResultDetail decreaseMoneyChangingRequest(@RequestBody  DecreaseMoneyChangingRequest request) {
-//        RegisterBankAccountCommand command = RegisterBankAccountCommand.builder()
-//                .membershipId(request.getMembershipId())
-//                .bankName(request.getBankName())
-//                .bankAccountNumber(request.getBankAccountNumber())
-//                .isValid(request.isValid())
-//                .build();
+    @PostMapping(path = "/money/decrease-eda")
+    @Operation(summary = "Event 감액 요청", description = "Event 감액 요청")
+    void decreaseMoneyChangingRequestByEvent(@RequestBody  DecreaseMoneyChangingRequest request) {
+        IncreaseMoneyRequestCommand command = IncreaseMoneyRequestCommand
+                .builder()
+                .targetMembershipId(request.getTargetMembershipId())
+                .amount(request.getAmount() * -1)
+                .build();
 
-//        return null;
-//    }
+        increaseMoneyRequestUseCase.increaseMoneyRequestByEvent(command);
+    }
+
+
+
+
 }

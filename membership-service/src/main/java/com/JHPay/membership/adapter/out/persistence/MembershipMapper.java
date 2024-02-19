@@ -5,14 +5,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MembershipMapper {
-    public Membership mapToDomainEntity(MembershipJapEntity membershipJapEntity) {
+    public Membership mapToDomainEntity(MembershipJpaEntity membershipJpaEntity) {
         return Membership.generateMember(
-                new Membership.MembershipId(membershipJapEntity.getMembershipId() + ""),
-                new Membership.MembershipName(membershipJapEntity.getName()),
-                new Membership.MembershipEmail(membershipJapEntity.getEmail()),
-                new Membership.MembershipAddress(membershipJapEntity.getAddress()),
-                new Membership.MembershipIsValid(membershipJapEntity.isValid()),
-                new Membership.MembershipIsCorp(membershipJapEntity.isCorp())
+                new Membership.MembershipId(membershipJpaEntity.getMembershipId() + ""),
+                new Membership.MembershipName(membershipJpaEntity.getName()),
+                new Membership.MembershipEmail(membershipJpaEntity.getEmail()),
+                new Membership.MembershipAddress(membershipJpaEntity.getAddress()),
+                new Membership.MembershipIsValid(membershipJpaEntity.isValid()),
+                new Membership.MembershipIsCorp(membershipJpaEntity.isCorp())
         );
     }
 }

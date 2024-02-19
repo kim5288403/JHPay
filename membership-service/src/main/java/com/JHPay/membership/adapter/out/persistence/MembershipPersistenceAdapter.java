@@ -7,15 +7,17 @@ import com.JHPay.membership.application.port.out.RegisterMembershipPort;
 import com.JHPay.membership.domain.Membership;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @PersistenceAdapter
 @RequiredArgsConstructor
 public class MembershipPersistenceAdapter implements RegisterMembershipPort, FindMembershipPort, ModifyMembershipPort {
 
     private final SpringDataMembershipRepository membershipRepository;
     @Override
-    public MembershipJapEntity createMembership(Membership.MembershipName membershipName, Membership.MembershipEmail membershipEmail, Membership.MembershipAddress membershipAddress, Membership.MembershipIsValid membershipIsValid, Membership.MembershipIsCorp membershipIsCorp) {
+    public MembershipJpaEntity createMembership(Membership.MembershipName membershipName, Membership.MembershipEmail membershipEmail, Membership.MembershipAddress membershipAddress, Membership.MembershipIsValid membershipIsValid, Membership.MembershipIsCorp membershipIsCorp) {
         return membershipRepository.save(
-                new MembershipJapEntity(
+                new MembershipJpaEntity(
                         membershipName.getMembershipName(),
                         membershipAddress.getMembershipAddress(),
                         membershipEmail.getMembershipEmail(),
@@ -26,12 +28,19 @@ public class MembershipPersistenceAdapter implements RegisterMembershipPort, Fin
     }
 
     @Override
-    public MembershipJapEntity findMembership(Membership.MembershipId membershipId) {
+    public MembershipJpaEntity findMembership(Membership.MembershipId membershipId) {
         return membershipRepository.findById(Long.valueOf(membershipId.getMembershipId())).orElse(null);
     }
 
     @Override
-    public MembershipJapEntity modifyMembership(
+    public List<MembershipJpaEntity> findMembershipListByAddress(Membership.MembershipAddress membershipAddress) {
+        String address = membershipAddress.getMembershipAddress();
+
+        return membershipRepository.findByAddress(address);
+    }
+
+    @Override
+    public MembershipJpaEntity modifyMembership(
             Membership.MembershipId membershipId,
             Membership.MembershipName membershipName,
             Membership.MembershipEmail membershipEmail,
@@ -39,7 +48,7 @@ public class MembershipPersistenceAdapter implements RegisterMembershipPort, Fin
             Membership.MembershipIsValid membershipIsValid,
             Membership.MembershipIsCorp membershipIsCorp)
     {
-        MembershipJapEntity entity = membershipRepository.findById(Long.valueOf(membershipId.getMembershipId())).orElse(null);
+        MembershipJpaEntity entity = membershipRepository.findById(Long.valueOf(membershipId.getMembershipId())).orElse(null);
 
         assert entity != null;
         entity.setName(membershipName.getMembershipName());
