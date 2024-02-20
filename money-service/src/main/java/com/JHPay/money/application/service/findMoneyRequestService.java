@@ -26,6 +26,8 @@ public class findMoneyRequestService implements FindMoneyRequestUseCase {
     public List<MemberMoney> findMemberMoneyListByMembershipIds(FindMemberMoneyListByMembershipIdsCommand command) {
         // 여러개의 맴버쉽 아이를 기준으로 맴버머니 정보를 가져와야함
         List<MemberMoneyJpaEntity> list = getMemberMoneyListPort.getMemberMoneyList(command.getMembershipId());
+        System.out.println(command.getMembershipId().get(0));
+        System.out.println(list.get(0));
         List<MemberMoney> memberMoneys = new ArrayList<>();
         for (MemberMoneyJpaEntity memberMoneyJpaEntity : list) {
             memberMoneys.add(mapper.mapToDomainEntity(memberMoneyJpaEntity));
@@ -34,3 +36,6 @@ public class findMoneyRequestService implements FindMoneyRequestUseCase {
         return memberMoneys;
     }
 }
+
+// AKIAR62GP44ZSRS5GMVP
+// 7rsA/0gSZd1AkY7uTSaBHG1Z3UayzGvolTQFtKxo

@@ -33,6 +33,9 @@ public class FindMembershipService implements FindMembershipUseCase {
     @Override
     public List<Membership> findMembershipListByAddress(FindMembershipListByAddressCommand command) {
         List<MembershipJpaEntity> list = findMembershipPort.findMembershipListByAddress(new Membership.MembershipAddress(command.getAddressName()));
+        System.out.println(command.getAddressName());
+        System.out.println(list.get(0));
+
         List<Membership> memberships = new ArrayList<>();
         for (MembershipJpaEntity  membershipJpaEntity : list) {
             memberships.add(membershipMapper.mapToDomainEntity(membershipJpaEntity));

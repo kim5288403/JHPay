@@ -29,7 +29,7 @@ public class MembershipServiceAdapter implements GetMembershipPort {
 
     @Override
     public List<String> getMembershipByAddress(String address) {
-        String url = String.join("/", membershipServiceUrl, "membership/address", address);
+        String url = String.join("/", membershipServiceUrl, "membership/address/", address);
 
         // http call
         try {
@@ -37,6 +37,7 @@ public class MembershipServiceAdapter implements GetMembershipPort {
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
             List<Membership> membershipList = mapper.readValue(jsonResponse, new TypeReference<>() {});
             return membershipList.stream()
                     .map(Membership::getMembershipId)
