@@ -22,9 +22,11 @@ public class FindMemberMoneyController {
     @PostMapping(path = "/money/member-money")
     @Operation(summary = "맴버 머니 가져오기", description = "맴버 머니 가져오기")
     List<MemberMoney> findMemberMoneyListByMembershipIdsRequest(@RequestBody FindMemberMoneyListByMembershipIdsRequest request) {
+        System.out.println(request);
+        System.out.println(request.getMembershipId());
         FindMemberMoneyListByMembershipIdsCommand command = FindMemberMoneyListByMembershipIdsCommand
                 .builder()
-                .membershipId(request.getTargetMembershipId())
+                .membershipId(request.getMembershipId())
                 .build();
 
         return findMoneyRequestUseCase.findMemberMoneyListByMembershipIds(command);

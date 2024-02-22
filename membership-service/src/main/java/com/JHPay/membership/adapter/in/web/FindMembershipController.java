@@ -34,6 +34,7 @@ public class FindMembershipController {
     @GetMapping(path = "/membership/address/{addressName}")
     @Operation(summary = "주소로 회원 정보 찾기", description = "주소로 회원 정보 가져오기")
     ResponseEntity<List<Membership>> findMembershipListByAddressName(@PathVariable String addressName) {
+        System.out.println("HI findMembershipListByAddressName");
         FindMembershipListByAddressCommand command = FindMembershipListByAddressCommand.builder()
                 .addressName(addressName)
                 .build();

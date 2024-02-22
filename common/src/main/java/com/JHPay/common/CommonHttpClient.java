@@ -2,6 +2,7 @@ package com.JHPay.common;
 
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -28,9 +29,20 @@ public class CommonHttpClient {
     public CompletableFuture<HttpResponse<String>> sendPostRequest(String url, String body) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
+                .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
 
         return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    public HttpResponse<String> sendPostRequest2(String url, String body) throws IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(body))
+                .build();
+
+        return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
     }
 }

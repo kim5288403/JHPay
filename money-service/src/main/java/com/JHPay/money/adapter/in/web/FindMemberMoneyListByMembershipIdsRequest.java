@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class FindMemberMoneyListByMembershipIdsRequest {
 
-    private List<String> targetMembershipId;
+    private List<String> membershipId;
 
 
 }

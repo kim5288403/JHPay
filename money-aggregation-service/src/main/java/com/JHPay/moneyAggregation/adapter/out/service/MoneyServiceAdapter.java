@@ -34,7 +34,11 @@ public class MoneyServiceAdapter implements GetMoneySumPort {
 
         try {
             FindMemberMoneyRequest request = new FindMemberMoneyRequest(membershipIds);
-            String jsonResponse = moneyServiceHttpClient.sendPostRequest(url, mapper.writeValueAsString(request)).get().body();
+
+            String jsonRequest = mapper.writeValueAsString(request);
+            System.out.println(jsonRequest);
+//            String jsonResponse = moneyServiceHttpClient.sendPostRequest(url, jsonRequest).get().body();
+            String jsonResponse = moneyServiceHttpClient.sendPostRequest2(url, jsonRequest).body();
             return mapper.readValue(jsonResponse, new TypeReference<>() {});
         } catch (Exception e) {
             throw new RuntimeException(e);

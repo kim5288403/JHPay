@@ -28,24 +28,36 @@ public class GetMoneySumByAggregationService implements GetMoneySumByAddressUseC
         // 강남구, 서초구, 관악구
         String targetAddress = command.getAddress();
         List<String> membershipIds = getMembershipPort.getMembershipByAddress(targetAddress);
-
-        List<List<String>> membershipPartitionList = null;
-        if (membershipIds.size() > 100) {
-            membershipPartitionList = partitionList(membershipIds, 100);
-        }
+        System.out.println(membershipIds.get(0));
+        System.out.println(membershipIds.get(1));
+        System.out.println(membershipIds.size());
 
         int sum = 0;
-        assert membershipPartitionList != null;
-        for (List<String> partitionedList : membershipPartitionList) {
-            // 100 개씩 요청해서, 값을 계산하기로 설계.
-            List<MemberMoney> memberMoneyList = getMoneySumPort.getMoneySumByMembershipIds(partitionedList);
+        List<List<String>> membershipPartitionList = null;
+
+        if (membershipIds.size() > 100) {
+            membershipPartitionList = partitionList(membershipIds, 100);
+            for (List<String> partitionedList : membershipPartitionList) {
+                // 100 개씩 요청해서, 값을 계산하기로 설계.
+                List<MemberMoney> memberMoneyList = getMoneySumPort.getMoneySumByMembershipIds(partitionedList);
+
+                for (MemberMoney memberMoney : memberMoneyList) {
+                    sum += memberMoney.getBalance();
+                }
+            }
+
+            return sum;
+        } else {
+            List<MemberMoney> memberMoneyList = getMoneySumPort.getMoneySumByMembershipIds(membershipIds);
+            System.out.println(memberMoneyList.get(0));
+            System.out.println(memberMoneyList.get(1));
 
             for (MemberMoney memberMoney : memberMoneyList) {
                 sum += memberMoney.getBalance();
             }
-        }
 
-        return sum;
+            return sum;
+        }
     }
     // List를 n개씩 묶어서 List<List<T>>로 만드는 메서드
     private static <T> List<List<T>> partitionList(List<T> list, int partitionSize) {

@@ -36,6 +36,3 @@ public class findMoneyRequestService implements FindMoneyRequestUseCase {
         return memberMoneys;
     }
 }
-
-// AKIAR62GP44ZSRS5GMVP
-// 7rsA/0gSZd1AkY7uTSaBHG1Z3UayzGvolTQFtKxo
