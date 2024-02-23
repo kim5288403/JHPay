@@ -29,7 +29,7 @@ public class MembershipServiceAdapter implements GetMembershipPort {
 
     @Override
     public List<String> getMembershipByAddress(String address) {
-        String url = String.join("/", membershipServiceUrl, "membership/address/", address);
+        String url = String.join("/", membershipServiceUrl, "membership/address", address);
 
         // http call
         try {

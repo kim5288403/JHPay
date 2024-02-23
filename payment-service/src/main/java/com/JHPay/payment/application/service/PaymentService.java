@@ -1,24 +1,26 @@
 package com.JHPay.payment.application.service;
 
 import com.JHPay.common.UseCase;
-import com.JHPay.payment.application.port.in.RequestPaymentCommand;
-import com.JHPay.payment.application.port.in.RequestPaymentUseCase;
-import com.JHPay.payment.application.port.out.CreatePaymentPort;
-import com.JHPay.payment.application.port.out.GetMembershipPort;
-import com.JHPay.payment.application.port.out.GetRegisteredBankAccountPort;
+import com.JHPay.payment.application.port.in.*;
+import com.JHPay.payment.application.port.out.*;
 import com.JHPay.payment.domain.Payment;
 import lombok.RequiredArgsConstructor;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @UseCase
 @RequiredArgsConstructor
 @Transactional
-public class PaymentService implements RequestPaymentUseCase {
+public class PaymentService implements RequestPaymentUseCase, GetNormalStatusPaymentsUseCase, FinishSettlementUseCase {
 
     private final CreatePaymentPort createPaymentPort;
 
     private final GetMembershipPort getMembershipPort;
+
+    private final GetNormalStatusPaymentsPort getNormalStatusPaymentsPort;
+
+    private final FinishSettlementPort finishSettlementPort;
 
     private final GetRegisteredBankAccountPort getRegisteredBankAccountPort;
 
@@ -38,5 +40,15 @@ public class PaymentService implements RequestPaymentUseCase {
                 command.getFranchiseId(),
                 command.getFranchiseFeeRate()
         );
+    }
+
+    @Override
+    public List<Payment> getNormalStatusPayments() {
+        return getNormalStatusPaymentsPort.getNormalStatusPayments();
+    }
+
+    @Override
+    public void finishPayment(FinishSettlementCommand command) {
+        finishSettlementPort.changePaymentRequestStatus(command.getPaymentId(), 2);
     }
 }

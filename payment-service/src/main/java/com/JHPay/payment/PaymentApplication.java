@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan({"com.JHPay.common"})
+@ComponentScan({"com.JHPay.common", "com.JHPay.payment"})
 public class PaymentApplication {
 
 	public static void main(String[] args) {

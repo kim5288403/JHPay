@@ -37,7 +37,8 @@ public class RegisterMembershipControllerTest {
                 new Membership.MembershipEmail("email"),
                 new Membership.MembershipAddress("address"),
                 new Membership.MembershipIsValid(true),
-                new Membership.MembershipIsCorp(false)
+                new Membership.MembershipIsCorp(false),
+                new Membership.RefreshToken("")
         );
 
         mockMvc.perform(

@@ -9,10 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
-import java.util.UUID;
 
 @Entity
-@Table(name = "payment")
+@Table(name = "payment_reqeust")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,7 +23,7 @@ public class PaymentJpaEntity {
 
     private String membershipId;
 
-    private int requestPrise;
+    private int requestPrice;
 
     private String franchiseId;
 
@@ -34,9 +33,9 @@ public class PaymentJpaEntity {
 
     private Date approvedAt;
 
-    public PaymentJpaEntity(String membershipId, int requestPrise, String franchiseId, String franchiseFeeRate, int paymentStatus, Date approvedAt) {
+    public PaymentJpaEntity(String membershipId, int requestPrice, String franchiseId, String franchiseFeeRate, int paymentStatus, Date approvedAt) {
         this.membershipId = membershipId;
-        this.requestPrise = requestPrise;
+        this.requestPrice = requestPrice;
         this.franchiseId = franchiseId;
         this.franchiseFeeRate = franchiseFeeRate;
         this.paymentStatus = paymentStatus;

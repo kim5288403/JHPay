@@ -14,7 +14,7 @@ public class Payment {
 
     private String membershipId;
 
-    private int requestPrise;
+    private int requestPrice;
 
     private String franchiseId;
 
@@ -27,7 +27,7 @@ public class Payment {
     public static Payment generatePayment(
                 PaymentId paymentId,
                 MembershipId membershipId,
-                RequestPrise requestPrise,
+                RequestPrice requestPrice,
                 FranchiseId franchiseId,
                 FranchiseFeeRate franchiseFeeRate,
                 PaymentStatus PaymentId,
@@ -36,7 +36,7 @@ public class Payment {
         return new Payment(
                 paymentId.getPaymentId(),
                 membershipId.getMembershipId(),
-                requestPrise.getRequestPrise(),
+                requestPrice.getRequestPrice(),
                 franchiseId.getFranchiseId(),
                 franchiseFeeRate.getFranchiseFeeRate(),
                 PaymentId.getPaymentStatus(),
@@ -63,12 +63,12 @@ public class Payment {
     }
 
     @Value
-    public static class RequestPrise {
-        public RequestPrise(int value) {
-            this.requestPrise = value;
+    public static class RequestPrice {
+        public RequestPrice(int value) {
+            this.requestPrice = value;
         }
 
-        int requestPrise;
+        int requestPrice;
     }
 
     @Value

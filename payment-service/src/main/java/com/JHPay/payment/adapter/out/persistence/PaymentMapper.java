@@ -9,7 +9,7 @@ public class PaymentMapper {
         return Payment.generatePayment(
                 new Payment.PaymentId(entity.getPaymentId()),
                 new Payment.MembershipId(entity.getMembershipId()),
-                new Payment.RequestPrise(entity.getRequestPrise()),
+                new Payment.RequestPrice(entity.getRequestPrice()),
                 new Payment.FranchiseId(entity.getFranchiseId()),
                 new Payment.FranchiseFeeRate(entity.getFranchiseFeeRate()),
                 new Payment.PaymentStatus(entity.getPaymentStatus()),

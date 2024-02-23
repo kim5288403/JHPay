@@ -10,4 +10,10 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class FindMembershipCommand extends SelfValidating<FindMembershipCommand> {
     private final String membershipId;
+
+    public FindMembershipCommand(String membershipId) {
+        this.membershipId = membershipId;
+
+        this.validateSelf();
+    }
 }

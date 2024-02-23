@@ -24,6 +24,7 @@ public class RequestFirmBankingController {
     @PostMapping(path = "/banking/firmbanking/request")
     @Operation(summary = "펌 뱅킹 요청", description = "펌 뱅킹 요청")
     FirmBankingRequest registerMembership(@RequestBody RegisterFirmBankingRequest request) {
+        System.out.println(request);
         RequestFirmBankingCommand command = RequestFirmBankingCommand.builder()
                 .fromBankName(request.getFromBankName())
                 .fromBankAccountNumber(request.getFromBankName())
