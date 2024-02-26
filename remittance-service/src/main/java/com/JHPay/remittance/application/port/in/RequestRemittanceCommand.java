@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Builder
@@ -26,7 +25,7 @@ public class RequestRemittanceCommand extends SelfValidating<RequestRemittanceCo
 
     // 송금요청 금액
     @NotNull
-    @NotBlank
+//    @NotBlank
     private int amount;
 
     public RequestRemittanceCommand(
