@@ -39,8 +39,8 @@ public class TestLoggingHandler {
     }
     private static Stream<String> provideStringForConsumer() {
         return Stream.of(
-                new String("[log] hello world"),
-                new String("[logging] hello world")
+                "[log] hello world",
+                "[logging] hello world"
         );
     }
     @ParameterizedTest
@@ -60,7 +60,7 @@ public class TestLoggingHandler {
     }
 
     private ConsumerRecords<String, String> createMockRecordsFromString(String value) {
-        List list = new ArrayList();
+        List<ConsumerRecord<String, String>> list = new ArrayList<>();
         ConsumerRecord<String, String> dummyRecord
                 = new ConsumerRecord<>("test", 0, 0, "key", value);
         list.add(dummyRecord);
